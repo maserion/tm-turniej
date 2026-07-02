@@ -14,19 +14,20 @@ export class UtopiaInvest extends CorporationCard implements ICorporationCard, I
   constructor() {
     super({
       name: CardName.UTOPIA_INVEST,
-      tags: [Tag.BUILDING],
+      tags: [Tag.BUILDING, Tag.POWER],
       startingMegaCredits: 40,
 
       behavior: {
+        stock: {steel: 4},
         production: {steel: 1, titanium: 1},
       },
 
       metadata: {
-        cardNumber: 'R33',
-        description: 'You start with 40 M€. Increase your steel and titanium production 1 step each.',
+        cardNumber: 'T016',
+        description: 'You start with 40 M€ and 4 steel units. Increase your steel and titanium production 1 step each and your energy production 2 steps.',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.megacredits(40).nbsp.production((pb) => pb.steel(1).titanium(1));
+          b.megacredits(40).steel(4).br.production((pb) => pb.steel(1).titanium(1).energy(2));
           b.corpBox('action', (ce) => {
             ce.action('Decrease any production to gain 4 resources of that kind.', (eb) => {
               eb.production((eb) => eb.wild(1)).startAction.wild(4, {digit});

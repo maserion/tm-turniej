@@ -16,18 +16,18 @@ export class Factorum extends CorporationCard implements ICorporationCard, IActi
   constructor() {
     super({
       name: CardName.FACTORUM,
-      tags: [Tag.POWER, Tag.BUILDING],
-      startingMegaCredits: 37,
+      tags: [Tag.POWER, Tag.BUILDING, Tag.EARTH],
+      startingMegaCredits: 40,
 
       behavior: {
-        production: {steel: 1},
+        production: {steel: 1, megacredits: 4},
       },
 
       metadata: {
-        cardNumber: 'R22',
-        description: 'You start with 37 M€. Increase your steel production 1 step.',
+        cardNumber: 'T006',
+        description: 'You start with 40 M€. Increase your steel production 1 step and M€ production 4 steps .',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(37).nbsp.production((pb) => pb.steel(1));
+          b.megacredits(40).nbsp.production((pb) => pb.steel(1).megacredits(4));
           b.corpBox('action', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.action('Increase your energy production 1 step IF YOU HAVE NO ENERGY RESOURCES, or spend 3M€ to draw a building card.', (eb) => {

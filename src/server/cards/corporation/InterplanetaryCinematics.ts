@@ -13,19 +13,20 @@ export class InterplanetaryCinematics extends CorporationCard implements ICorpor
   constructor() {
     super({
       name: CardName.INTERPLANETARY_CINEMATICS,
-      tags: [Tag.BUILDING],
+      tags: [Tag.BUILDING, Tag.BUILDING, Tag.MICROBE],
       startingMegaCredits: 30,
 
       behavior: {
-        stock: {steel: 20},
+        stock: {steel: 20, plants: 2},
+        production: {plants: 1, energy: 1},
       },
 
       metadata: {
-        cardNumber: 'R19',
-        description: 'You start with 20 steel and 30 M€.',
+        cardNumber: 'T010',
+        description: 'You start with 20 steel, 2 plants and 30 M€. Increase your plant and steel production 1 step each.',
         renderData: CardRenderer.builder((b) => {
           b.br.br.br;
-          b.megacredits(30).nbsp.steel(20, {digit});
+          b.megacredits(30).steel(20, {digit}).plants(2).br.production((pb) => pb.plants(1).energy(1));
           b.corpBox('effect', (ce) => {
             ce.effect('Each time you play an event, you gain 2 M€.', (eb) => {
               eb.tag(Tag.EVENT).startEffect.megacredits(2);

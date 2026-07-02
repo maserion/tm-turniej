@@ -13,17 +13,17 @@ export class EcoLine extends CorporationCard implements ICorporationCard {
       startingMegaCredits: 36,
 
       behavior: {
-        production: {plants: 2},
+        production: {plants: 2, megacredits:1, steel: 1, titanium: 1},
         stock: {plants: 3},
         greeneryDiscount: 1,
       },
 
       metadata: {
-        cardNumber: 'R17',
-        description: 'You start with 2 plant production, 3 plants, and 36 M€.',
+        cardNumber: 'T007',
+        description: 'You start with 2 plant production, 1 M€ production, 1 steel production and 1 titanium production. Gain 3 plants and 36 M€.',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.production((pb) => pb.plants(2)).nbsp.megacredits(36).plants(3, {digit});
+          b.production((pb) => pb.plants(2).megacredits(1).steel(1).titanium(1)).nbsp.br.megacredits(36).plants(3, {digit});
           b.corpBox('effect', (ce) => {
             ce.effect('You may always pay 7 plants, instead of 8, to place greenery.', (eb) => {
               eb.plants(7, {digit}).startAction.greenery();

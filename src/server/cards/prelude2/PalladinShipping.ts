@@ -16,17 +16,19 @@ export class PalladinShipping extends CorporationCard implements ICorporationCar
   constructor() {
     super({
       name: CardName.PALLADIN_SHIPPING,
-      tags: [Tag.SPACE],
+      tags: [Tag.SPACE, Tag.WILD],
       startingMegaCredits: 36,
 
       behavior: {
         stock: {titanium: 5},
+        production: {megacredits: 1},
+        drawCard: 3,
       },
 
       metadata: {
-        cardNumber: 'PC02', // Renumber
+        cardNumber: 'T013', // Renumber
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(36).titanium(5, {digit}).br;
+          b.megacredits(36).titanium(5, {digit}).br.cards(3).production((pb) => pb.megacredits(1));
           b.corpBox('effect-action', (cea) => {
             cea.vSpace(Size.LARGE);
             cea.effect('When you play a space event, gain 1 titanium.', (eb) => {
@@ -38,7 +40,7 @@ export class PalladinShipping extends CorporationCard implements ICorporationCar
             });
           });
         }),
-        description: 'You start with 36 M€. Gain 5 titanium.',
+        description: 'You start with 36 M€ and 1 M€ production. Draw 3 cards. Gain 5 titanium.',
       },
     });
   }

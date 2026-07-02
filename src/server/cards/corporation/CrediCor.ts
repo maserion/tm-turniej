@@ -7,19 +7,24 @@ import {IStandardProjectCard} from '../IStandardProjectCard';
 import {Resource} from '../../../common/Resource';
 import {ICorporationCard} from './ICorporationCard';
 import {ICard} from '../ICard';
+import {Tag} from '../../../common/cards/Tag';
 
 export class CrediCor extends CorporationCard implements ICorporationCard {
   constructor() {
     super({
       name: CardName.CREDICOR,
+      tags: [Tag.BUILDING],
       startingMegaCredits: 57,
+      
 
       metadata: {
-        cardNumber: 'R08',
-        description: 'You start with 57 M€.',
+        cardNumber: 'T004',
+        description: 'You start with 57 M€, 2 heat units, 1 steel production and 2 heat production.',
         renderData: CardRenderer.builder((b) => {
           b.br.br.br;
-          b.megacredits(57);
+          b.megacredits(57).heat(2);
+          b.br;
+          b.production((pb) => pb.steel(1).heat(2));
           b.corpBox('effect', (ce) => {
             ce.effect('After you pay for a card or standard project with a basic cost of 20M€ or more, you gain 4 M€.', (eb) => {
               eb.minus().megacredits(20).startEffect.megacredits(4);
