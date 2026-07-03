@@ -249,40 +249,31 @@ class InitialDraft extends Draft {
   }
 
   override draw(_player: IPlayer) {
-    return this.game.projectDeck.drawN(this.game, 5, 'bottom');
+    return this.game.projectDeck.drawN(this.game, 10, 'bottom');
   }
 
   override cardsToKeep(_player: IPlayer): number {
     return 1;
   }
 
-  override passDirection() {
-    return this.game.initialDraftIteration === 2 ? 'before' : 'after';
+  override passDirection(): 'before' | 'after' {
+    return 'before';
   }
 
   override endRound() {
-    this.game.initialDraftIteration++;
-    // TODO(kberg): Move this to runDraftRound.
-    this.game.draftRound = 1;
+    for (const player of this.game.players) {
+      player.dealtProjectCards = player.draftedCards;
+      player.draftedCards = [];
+    }
+    this.game.initialDraftIteration = 3;
 
-    switch (this.game.initialDraftIteration) {
-    case 2:
-      this.startDraft();
-      break;
-    case 3:
-      for (const player of this.game.players) {
-        player.dealtProjectCards = player.draftedCards;
-        player.draftedCards = [];
-      }
-      if (this.game.gameOptions.preludeExtension && this.game.gameOptions.preludeDraftVariant) {
-        newPreludeDraft(this.game).startDraft();
-      } else if (this.game.gameOptions.ceoExtension && this.game.gameOptions.ceosDraftVariant) {
-        this.game.initialDraftIteration++;
-        newCEOsDraft(this.game).startDraft();
-      } else {
-        this.game.gotoInitialResearchPhase();
-      }
-      break;
+    if (this.game.gameOptions.preludeExtension && this.game.gameOptions.preludeDraftVariant) {
+      newPreludeDraft(this.game).startDraft();
+    } else if (this.game.gameOptions.ceoExtension && this.game.gameOptions.ceosDraftVariant) {
+      this.game.initialDraftIteration++;
+      newCEOsDraft(this.game).startDraft();
+    } else {
+      this.game.gotoInitialResearchPhase();
     }
   }
 }

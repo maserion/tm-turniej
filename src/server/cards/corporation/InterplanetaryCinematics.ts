@@ -23,7 +23,7 @@ export class InterplanetaryCinematics extends CorporationCard implements ICorpor
 
       metadata: {
         cardNumber: 'T010',
-        description: 'You start with 20 steel, 2 plants and 30 M€. Increase your plant and steel production 1 step each.',
+        description: 'You start with 20 steel, 2 plants and 30 M€. Increase your plant and energy production 1 step each.',
         renderData: CardRenderer.builder((b) => {
           b.br.br.br;
           b.megacredits(30).steel(20, {digit}).plants(2).br.production((pb) => pb.plants(1).energy(1));

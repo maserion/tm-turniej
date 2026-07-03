@@ -298,6 +298,8 @@ export class Game implements IGame, Logger {
     const corporationDeck = new CorporationDeck(gameCards.getCorporationCards(), [], rng);
     corporationDeck.shuffle(gameOptions.customCorporationsList);
 
+    const sharedPool = corporationDeck.drawN(null as any, 5);
+
     const preludeDeck = new PreludeDeck(gameCards.getPreludeCards(), [], rng);
     preludeDeck.shuffle(gameOptions.customPreludes);
 
@@ -417,7 +419,8 @@ export class Game implements IGame, Logger {
         gameOptions.preludeDraftVariant ||
         gameOptions.underworldExpansion ||
         gameOptions.moonExpansion) {
-        player.dealtCorporationCards.push(...corporationDeck.drawN(game, gameOptions.startingCorporations));
+        player.dealtCorporationCards.push(...sharedPool);
+
         if (gameOptions.initialDraftVariant === false) {
           player.dealtProjectCards.push(...projectDeck.drawN(game, 10));
         }
