@@ -305,7 +305,12 @@ export default defineComponent({
           return false;
         }
       }
-      if (this.selectedCards.length === 0) {
+      if (this.selectedCorporations.includes(CardName.UNITED_NATIONS_MARS_INITIATIVE)) {
+        if (this.selectedCards.length < 3) {
+          this.warning = 'Select at least 3 project cards when taking UNMI';
+          return false;
+        }
+      } else if (this.selectedCards.length === 0) {
         this.warning = 'You haven\'t selected any project cards';
         return true;
       }

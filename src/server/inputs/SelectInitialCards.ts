@@ -3,12 +3,12 @@ import {ICorporationCard} from '../cards/corporation/ICorporationCard';
 import {IPlayer} from '../IPlayer';
 import {SelectCard} from './SelectCard';
 import {Merger} from '../cards/promo/Merger';
-import {CardName} from '../../common/cards/CardName';
 import {SelectInitialCardsModel} from '../../common/models/PlayerInputModel';
 import {InputError} from './InputError';
 import {OptionsInput} from './OptionsPlayerInput';
 import {InputResponse, isSelectInitialCardsResponse} from '../../common/inputs/InputResponse';
 import {PlayerInput} from '../PlayerInput';
+import {CardName} from '../../common/cards/CardName';
 
 type Inputs = {
   corp: PlayerInput | undefined,
@@ -84,6 +84,20 @@ export class SelectInitialCards extends OptionsInput<undefined> {
           return undefined;
         }),
     );
+
+    const corpInput = this.inputs.corp as SelectCard<ICorporationCard>;
+    corpInput.andThen((cards) => {
+      if (cards.length !== 1) {
+        throw new InputError('Only select 1 corporation card');
+      }
+      corporation = cards[0];
+      if (corporation.name === CardName.UNITED_NATIONS_MARS_INITIATIVE) {
+        const projectInput = this.inputs.project as SelectCard<ICorporationCard>;
+        projectInput.config.min = 3;
+        projectInput.config.max = 10;
+      }
+      return undefined;
+    });
     this.andThen(() => {
       this.completed(corporation);
       // TODO(kberg): This is probably broken. Stop subclassing AndOptions.
@@ -101,6 +115,12 @@ export class SelectInitialCards extends OptionsInput<undefined> {
       player.cardsInHand = [];
       player.preludeCardsInHand = [];
       throw new InputError('Too many cards selected');
+    }
+
+    if (corporation.name === CardName.UNITED_NATIONS_MARS_INITIATIVE && player.cardsInHand.length < 3) {
+      player.cardsInHand = [];
+      player.preludeCardsInHand = [];
+      throw new InputError('Select at least 3 project cards when taking UNITED NATIONS MARS INITIATIVE');
     }
 
     for (const card of player.dealtProjectCards) {

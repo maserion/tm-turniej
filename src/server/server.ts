@@ -101,7 +101,7 @@ async function start() {
 
   console.log(`Starting ${raw_settings.head}, built at ${raw_settings.builtAt}`);
 
-  const port = process.env.PORT || 2137;
+  const port = process.env.PORT || 1488;
   const host = process.env.HOST;
   if (host) {
     console.log(`Starting server listening to ${host} on port ${port}`);
