@@ -15,6 +15,11 @@ export class CrediCor extends CorporationCard implements ICorporationCard {
       name: CardName.CREDICOR,
       tags: [Tag.BUILDING],
       startingMegaCredits: 57,
+
+      behavior: {
+        production: {steel: 1, heat: 2},
+        stock: {heat: 2},
+      },
       
 
       metadata: {
